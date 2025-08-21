@@ -1,9 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#define TAMANHO 10
+
+void contaTempoDeBusca(int (*function)(int*, int, int), char* nomeFuncao, int* vetor, int tam, int procurado);
+void printVetor(int *vetor, int tam);
+int buscaSequencial(int* vetor, int tam, int procurado);
+int buscaBinariaIterativa(int *vetor, int tam, int procurado);
+
+int main() {
+    srand(time(NULL));
+
+    int vetor[TAMANHO] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 11};
+    
+    printVetor(vetor, TAMANHO);
+
+    contaTempoDeBusca(&buscaSequencial, "busca sequencial", vetor, TAMANHO, 1);
+    contaTempoDeBusca(&buscaBinariaIterativa, "busca binaria iterativa", vetor, TAMANHO, 9);
+
+    return 0;
+}
+
+//
+// Utilidades
+//
 
 // uma função que recebe um ponteiro de função e conta quanto tempo ela demorou para ser executada
-void contaTempoDeBusca(int (*function)(int*, int, int), int* vetor, int tam, int procurado) {
+void contaTempoDeBusca(int (*function)(int*, int, int), char* nomeFuncao, int* vetor, int tam, int procurado) {
     clock_t firstTick = clock();
 
     int resultado = function(vetor, tam, procurado);
@@ -12,7 +35,7 @@ void contaTempoDeBusca(int (*function)(int*, int, int), int* vetor, int tam, int
 
     double tempoTotal = (double) (lastTick - firstTick) / CLOCKS_PER_SEC;
 
-    printf("Tempo decorrido: %d micro segundos", (int) (tempoTotal * 1000000));
+    printf("Funcao %s: %d micro segundos", nomeFuncao, (int) (tempoTotal * 1000000));
 }
 
 void printVetor(int *vetor, int tam) {
@@ -22,7 +45,11 @@ void printVetor(int *vetor, int tam) {
     printf("%d}\n", vetor[tam - 1]);
 }
 
-int buscaSequencial(int* vetor, int tam, int procurado) {
+//
+// Funções de busca
+//
+
+int buscaSequencial(int vetor[], int tam, int procurado) {
     for (int i = 0; i < tam; i++)
         if (vetor[i] == procurado)
             return i;
@@ -30,17 +57,22 @@ int buscaSequencial(int* vetor, int tam, int procurado) {
     return -1;
 }
 
-int main() {
-    srand(time(NULL));
+int buscaBinariaIterativa(int vetor[], int tam, int procurado) {
+    int meio = tam / 2 - 1;
+    int ultimoMeio = 0;
 
-    int vetor[1000];
+    while (ultimoMeio != meio) {
+        ultimoMeio = meio;
 
-    for (int i = 0; i < 1000; i++)
-        vetor[i] = rand() % 1000;
+        if (vetor[meio] == procurado)
+            return meio;
+        else if (vetor[meio] > procurado) {
+            meio = meio / 2;
+        }
+        else {
+            meio = (tam + meio) / 2;
+        }
+    }
 
-    printVetor(vetor, 1000);
-
-    contaTempoDeBusca(&buscaSequencial, vetor, 1000, 1);
-
-    return 0;
+    return -1;
 }
