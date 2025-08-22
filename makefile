@@ -4,4 +4,8 @@ build:
 run:
 	./benchmark.out
 
+bench:
+	./benchmark.out
+	cd Benchmark\ Analisis/ && Rscript analisis.r
+
 all: build run

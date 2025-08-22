@@ -57,26 +57,24 @@ int* populateArray(int size) {
 int main() {
     srand(time(NULL));
     int* arr;
-    FILE *output = fopen("benchmark.txt", "w+");
+    FILE *output = fopen("benchmark.csv", "w+");
 
     int numElements[4] = {10, 100, 1000, 5000};
     unsigned int iterations = 100;
 
+    fprintf(output, "tipo,tempo,qtdElementos\n");
     for (int i = 0; i < 4; i++) {
         arr = populateArray(numElements[i]);
         mergesort(arr, 0, numElements[i] - 1);
         int randomNumber = arr[rand() % numElements[i]];
 
-        fprintf(output, "________________________________________________________________\n");
-        fprintf(output, "Numero de elementos: %d | Numero de execuções: %d | Numero procurado: %d\n\n", numElements[i], iterations, randomNumber);
-
         double avgTime;
         avgTime = countSearchTime(&sequentialSearch, arr, numElements[i], randomNumber, iterations);
-        fprintf(output, "Funcao: Busca sequencial | Tempo medio: %.3lf us\n", avgTime);
+        fprintf(output, "S,%.3lf,%d\n", avgTime, numElements[i]);
         avgTime = countSearchTime(&iterativeBinarySearch, arr, numElements[i], randomNumber, iterations);
-        fprintf(output, "Funcao: Busca binaria iterativa | Tempo medio: %.3lf us\n", avgTime);
+        fprintf(output, "I,%.3lf,%d\n", avgTime, numElements[i]);
         avgTime = countSearchTime(&recursiveBinarySearch, arr, numElements[i], randomNumber, iterations);
-        fprintf(output, "Funcao: Busca binaria recursiva | Tempo medio: %.3lf us\n", avgTime);
+        fprintf(output, "R,%.3lf,%d\n", avgTime, numElements[i]);
     }
     
     free(arr);
