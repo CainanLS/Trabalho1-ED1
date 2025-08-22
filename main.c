@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "binarySearch.h"
+#include "mergesort.h"
 
 typedef enum {
     _,
@@ -13,9 +14,10 @@ typedef enum {
 } Options;
 
 void printArray(int *arr, int size) {
+    printf("Array[%d] {", size);
     for (int i = 0; i < size - 1; i++)
-        printf("%d ", arr[i]);
-    printf("%d\n", arr[size - 1]);
+        printf("%d, ", arr[i]);
+    printf("%d}\n", arr[size - 1]);
 }
 
 // Função que retorna um novo array, contendo os elementos em ordem invertida do array passado por parâmetro
@@ -28,27 +30,40 @@ int* invertArray(int* arr, int size) {
     return inverted;
 }
 
-void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, int size, int search) {
+void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, int size, int search, int iterations) {
     clock_t firstTick = clock();
 
-    function(arr, size, search);
+    int output;
+    for (int i = 0; i < iterations; i++)
+        output = function(arr, size, search);
 
     clock_t lastTick = clock();
 
     double totalTime = (double) (lastTick - firstTick) / CLOCKS_PER_SEC;
 
-    printf("Funcao %s: %ds", funcName, totalTime);
+    printf("Funcao: %s | Tempo: %lfs (%d iteracoes) | Resultado: %s (target -> %d)\n", funcName, totalTime, iterations, output != -1 ? "SIM" : "NAO", output);
 }
 
+int* populateArray(int size) {
+    int* arr = (int*) malloc(size * sizeof(int));
 
-int* invertArray(int* arr, int size);
+    for (int i = 0; i < size; i++)
+        arr[i] = rand() % size;
+
+    return arr;
+}
 
 int main() {
     srand(time(NULL));
 
-    unsigned int numElements = 10;
+    unsigned int numElements = 10000;
 
-    int* arr = (int*) malloc(numElements * sizeof(int));
+    int* arr = populateArray(numElements);
+    mergesort(arr, 0, numElements - 1);
+
+    countSearchTime(&sequentialSearch, "Busca sequencial", arr, numElements, arr[rand() % numElements], 100);
+    countSearchTime(&iterativeBinarySearch, "Busca binaria iterativa", arr, numElements, arr[rand() % numElements], 100);
+    countSearchTime(&recursiveBinarySearch, "Busca binaria recursiva", arr, numElements, arr[rand() % numElements], 100);
 
     return 0;
 }
