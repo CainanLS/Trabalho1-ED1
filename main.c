@@ -28,57 +28,27 @@ int* invertArray(int* arr, int size) {
     return inverted;
 }
 
+void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, int size, int search) {
+    clock_t firstTick = clock();
+
+    function(arr, size, search);
+
+    clock_t lastTick = clock();
+
+    double totalTime = (double) (lastTick - firstTick) / CLOCKS_PER_SEC;
+
+    printf("Funcao %s: %ds", funcName, totalTime);
+}
+
 
 int* invertArray(int* arr, int size);
 
 int main() {
     srand(time(NULL));
 
-    unsigned int numElements;
-    scanf("%u", &numElements);
+    unsigned int numElements = 10;
 
     int* arr = (int*) malloc(numElements * sizeof(int));
-
-    for (int i = 0; i < numElements; i++)
-        scanf("%d", &arr[i]);
-    
-    int target, found;
-    while (1) {
-        int option;
-        scanf("%d", &option);
-
-        switch (option) {
-            case INVERT:
-                int* inverted = invertArray(arr, numElements);
-                printArray(inverted, numElements);
-                break;
-            
-            case LINEAR_SEARCH:
-                scanf("%d", &target);
-
-                found = sequentialSearch(arr, numElements, target);
-                printf("%s\n", found != -1 ? "SIM" : "NAO");
-                break;
-
-            case BINARY_SEARCH:
-                scanf("%d", &target);
-
-                found = iterativeBinarySearch(arr, numElements, target);
-                printf("%s\n", found != -1 ? "SIM" : "NAO");
-                break;
-
-            case RECURSIVE_BINARY_SEARCH:
-                scanf("%d", &target);
-
-                found = recursiveBinarySearch(arr, numElements, target);
-                printf("%s\n", found != -1 ? "SIM" : "NAO");
-                break;
-
-            case EXIT:
-                free(arr);
-                exit(1);
-        }
-    }
 
     return 0;
 }
