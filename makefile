@@ -1,5 +1,5 @@
 build:
-	gcc main.c binarySearch.c -o benchmark.out
+	gcc main.c binarySearch.c mergesort.c -o benchmark.out
 
 run:
 	./benchmark.out
