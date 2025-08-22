@@ -58,3 +58,6 @@ dkms.conf
 
 #other
 .vscode
+*.png
+*.csv
+*.txt

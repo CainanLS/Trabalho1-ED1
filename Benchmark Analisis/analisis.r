@@ -1,11 +1,27 @@
 data <- read.csv("../benchmark.csv")
-print(data)
 
 bench_seq <- data[data[, "tipo"] == "S", ]
-print(bench_seq)
+
+png("resultSequential.png")
+
+plot(bench_seq[, "qtdElementos"], bench_seq[, "tempo"],
+     xlab = "n° de elementos", ylab = "Tempo em microssegundos",
+     main = "Tempo de processamento da Busca Sequencial", type = "b")
 
 bench_it <- data[data[, "tipo"] == "I", ]
-print(bench_it)
+
+png("resultIterative.png")
+
+plot(bench_it[, "qtdElementos"], bench_it[, "tempo"],
+     xlab = "n° de elementos", ylab = "Tempo em microssegundos",
+     main = "Tempo de processamento da Busca Binária Iterativa", type = "b")
 
 bench_req <- data[data[, "tipo"] == "R", ]
-print(bench_req)
+
+png("resultRecursive.png")
+
+plot(bench_req[, "qtdElementos"], bench_req[, "tempo"],
+     xlab = "n° de elementos", ylab = "Tempo em microssegundos",
+     main = "Tempo de processamento da Busca Binaria Recursiva", type = "b")
+
+dev.off()
