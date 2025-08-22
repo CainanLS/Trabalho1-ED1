@@ -11,11 +11,12 @@ typedef enum {
     EXIT
 } Options;
 
+void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, int size, int search);
 void printArray(int *arr, int tam);
-int* invertArray(int* arr, int size);
 int sequentialSearch(int *arr, int tam, int search);
 int iterativeBinarySearch(int *arr, int tam, int search);
 int recursiveBinarySearch(int *arr, int size, int search);
+int* invertArray(int* arr, int size);
 
 int main() {
     srand(time(NULL));
@@ -73,6 +74,19 @@ int main() {
 // Utilidades
 //
 
+// uma função que recebe um ponteiro de função e conta quanto tempo ela demorou para ser executada
+void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, int size, int search) {
+    clock_t firstTick = clock();
+
+    function(arr, size, search);
+
+    clock_t lastTick = clock();
+
+    double totalTime = (double) (lastTick - firstTick) / CLOCKS_PER_SEC;
+
+    printf("Funcao %s: %ds", funcName, totalTime);
+}
+
 void printArray(int *arr, int size) {
     for (int i = 0; i < size - 1; i++)
         printf("%d ", arr[i]);
@@ -95,16 +109,17 @@ int iterativeBinarySearch(int *arr, int size, int search) {
     int start = 0;
     int end = size - 1;
 
-    // verifica se o programa já dividiu o suficiente para achar o número
     while (start <= end) {
         int mid = (start + end) / 2;
 
         if (arr[mid] == search)
             return mid;
-        else if (arr[mid] > search)
+        else if (arr[mid] > search) {
             end = mid - 1;
-        else
+        }
+        else {
             start = mid + 1;
+        }
     }
 
     return -1;
@@ -135,7 +150,6 @@ int recursiveBinarySearch(int *arr, int size, int search) {
     }
 }
 
-// Função que retorna um novo array, contendo os elementos em ordem invertida do array passado por parâmetro
 int* invertArray(int* arr, int size) {
     int *inverted = (int*) malloc(size * sizeof(int));
 
