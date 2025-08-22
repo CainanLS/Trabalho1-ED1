@@ -30,7 +30,7 @@ int* invertArray(int* arr, int size) {
     return inverted;
 }
 
-void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, int size, int search, int iterations) {
+double countSearchTime(int (*function)(int*, int, int), int* arr, int size, int search, int iterations) {
     clock_t firstTick = clock();
 
     int output;
@@ -40,8 +40,9 @@ void countSearchTime(int (*function)(int*, int, int), char* funcName, int* arr, 
     clock_t lastTick = clock();
 
     double totalTime = (double) (lastTick - firstTick) / CLOCKS_PER_SEC;
+    double averageTime = totalTime * 1000000 / iterations;
 
-    printf("Funcao: %s | Tempo: %lfs (%d iteracoes) | Resultado: %s (target -> %d)\n", funcName, totalTime, iterations, output != -1 ? "SIM" : "NAO", output);
+    return averageTime;
 }
 
 int* populateArray(int size) {
@@ -55,15 +56,30 @@ int* populateArray(int size) {
 
 int main() {
     srand(time(NULL));
+    int* arr;
+    FILE *output = fopen("benchmark.txt", "w+");
 
-    unsigned int numElements = 10000;
+    int numElements[4] = {10, 100, 1000, 5000};
+    unsigned int iterations = 100;
 
-    int* arr = populateArray(numElements);
-    mergesort(arr, 0, numElements - 1);
+    for (int i = 0; i < 4; i++) {
+        arr = populateArray(numElements[i]);
+        mergesort(arr, 0, numElements[i] - 1);
+        int randomNumber = arr[rand() % numElements[i]];
 
-    countSearchTime(&sequentialSearch, "Busca sequencial", arr, numElements, arr[rand() % numElements], 100);
-    countSearchTime(&iterativeBinarySearch, "Busca binaria iterativa", arr, numElements, arr[rand() % numElements], 100);
-    countSearchTime(&recursiveBinarySearch, "Busca binaria recursiva", arr, numElements, arr[rand() % numElements], 100);
+        fprintf(output, "________________________________________________________________\n");
+        fprintf(output, "Numero de elementos: %d | Numero de execuções: %d | Numero procurado: %d\n\n", numElements[i], iterations, randomNumber);
 
+        double avgTime;
+        avgTime = countSearchTime(&sequentialSearch, arr, numElements[i], randomNumber, iterations);
+        fprintf(output, "Funcao: Busca sequencial | Tempo medio: %.3lf us\n", avgTime);
+        avgTime = countSearchTime(&iterativeBinarySearch, arr, numElements[i], randomNumber, iterations);
+        fprintf(output, "Funcao: Busca binaria iterativa | Tempo medio: %.3lf us\n", avgTime);
+        avgTime = countSearchTime(&recursiveBinarySearch, arr, numElements[i], randomNumber, iterations);
+        fprintf(output, "Funcao: Busca binaria recursiva | Tempo medio: %.3lf us\n", avgTime);
+    }
+    
+    free(arr);
+    fclose(output);
     return 0;
 }
