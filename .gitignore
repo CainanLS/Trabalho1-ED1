@@ -61,3 +61,4 @@ dkms.conf
 *.png
 *.csv
 *.txt
+*.pdf
