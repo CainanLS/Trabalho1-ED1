@@ -1,6 +1,12 @@
+/*
+Membros:
+Cainan Loyola Schiavolin - 15444319
+João Pedro Correia Caetano - 16987067
+Luís Gustavo Vieira Antoniosi - 17067476
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 typedef enum {
     _,
@@ -26,7 +32,7 @@ int main() {
     for (int i = 0; i < numElements; i++)
         scanf("%d", &arr[i]);
     
-    int target, found;
+    int target = -1, found = -1;
     // Mantém um loop para realizar as ações do usuário
     // Digitar 5 limpa a memória e encerra o programa
     while (1) {
@@ -73,6 +79,7 @@ int main() {
 // Utilidades
 //
 
+// Função que imprime o array
 void printArray(int *arr, int size) {
     for (int i = 0; i < size - 1; i++)
         printf("%d ", arr[i]);
@@ -102,6 +109,7 @@ int sequentialSearch(int *arr, int size, int target) {
     return -1;
 }
 
+// Busca binaria iterativa
 int iterativeBinarySearch(int *arr, int size, int target) {
     int start = 0;
     int end = size - 1;
@@ -123,7 +131,7 @@ int iterativeBinarySearch(int *arr, int size, int target) {
     return -1;
 }
 
-// busca binária recursiva; mantemos o padrão de 3 parâmetros por função
+// Busca binária recursiva; mantemos o padrão de 3 parâmetros por função
 int recursiveBinarySearch(int *arr, int size, int target) {
     int end = size - 1; // o final sempre é o tamanho - 1
     int start = 0; // o começo ser sempre igual a 0 se torna um problema com apenas 3 paramêtros (inicialmente)
@@ -135,15 +143,19 @@ int recursiveBinarySearch(int *arr, int size, int target) {
     if (arr[mid] == target) return mid;
 
     if (arr[mid] > target) {
-        // o "novo tamanho (size)" é metade do atual
-        int idx = recursiveBinarySearch(arr, size / 2, target);
+        // caso o proximo passo seja buscar a metade esquerda, o novo subarray irá de 0 a (mid - 1), portanto tendo tamanho de "mid"
+        int idx = recursiveBinarySearch(arr, mid, target);
         return idx;
-    } else if (arr[mid] < target) {
-        // levando em consideração o começo sempre ser 0, atualizamos o array (que nesse caso é considerado o pointer do primeiro elemento), para que possua o endereço do "novo primeiro elemento",
-        // o qual será 1 após o meio (mid + 1). portanto, o que era arr[mid + 1] agora será equivalente a arr[0].
-        arr = arr + (mid + 1);
-        int idx = recursiveBinarySearch(arr, size / 2, target); 
-        int diff = (mid + 1); // adicionamos a diferença causada pela atualização anterior do array no index retornado
-        return idx + diff;
     }
+    // levando em consideração o começo sempre ser 0, atualizamos o array (que nesse caso é considerado o pointer do primeiro elemento), para que possua o endereço do "novo primeiro elemento",
+    // o qual será 1 após o meio (mid + 1). portanto, o que era arr[mid + 1] agora será equivalente a arr[0].
+    arr = arr + (mid + 1);
+
+    // caso o proximo passo seja buscar a metade direita, o novo subarray irá de mid + 1 ate o final do array, portanto tendo tamanho de "size - (mid + 1)"
+    int idx = recursiveBinarySearch(arr, size - (mid + 1), target); 
+    int diff = (mid + 1); // diferença causada pela atualização anterior do array no index retornado
+    
+    if (idx != -1) return idx + diff; // a diferença é adicionada ao index caso o elemento esteja dentro do subarray
+    
+    return -1;
 }
