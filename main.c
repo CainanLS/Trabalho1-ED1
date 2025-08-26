@@ -1,17 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "search.h"
 #include "mergesort.h"
 #include "utils.h"
-
-typedef enum {
-    _,
-    INVERT,
-    LINEAR_SEARCH,
-    BINARY_SEARCH,
-    RECURSIVE_BINARY_SEARCH,
-    EXIT
-} Options;
 
 int main() {
     srand(time(NULL));

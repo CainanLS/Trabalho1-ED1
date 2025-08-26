@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
 #include "utils.h"
 
 void printArray(int *arr, int size) {
@@ -16,16 +17,6 @@ int* populateArray(int size) {
         arr[i] = i + 1;
 
     return arr;
-}
-
-// Função que retorna um novo array, contendo os elementos em ordem invertida do array passado por parâmetro
-int* invertArray(int* arr, int size) {
-    int *inverted = (int*) malloc(size * sizeof(int));
-
-    for (int i = 0; i < size; i++)
-        inverted[i] = arr[size - i - 1];
-
-    return inverted;
 }
 
 double countSearchTime(int (*function)(int*, int, int), int* arr, int size, int search, int iterations) {
