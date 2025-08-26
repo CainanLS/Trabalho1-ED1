@@ -1,11 +1,11 @@
 build:
-	gcc main.c binarySearch.c mergesort.c -o benchmark.out
+	gcc main.c search.c mergesort.c -o benchmark.out
 
 run:
 	./benchmark.out
 
 bench:
 	./benchmark.out
-	cd Benchmark\ Analisis/ && Rscript analisis.r
+	cd Benchmark\ Analisis/ && Rscript analysis.r
 
 all: build run

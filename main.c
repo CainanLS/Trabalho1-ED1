@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "binarySearch.h"
+#include "search.h"
 #include "mergesort.h"
 
 typedef enum {
@@ -31,16 +31,20 @@ int* invertArray(int* arr, int size) {
 }
 
 double countSearchTime(int (*function)(int*, int, int), int* arr, int size, int search, int iterations) {
-    clock_t firstTick = clock();
+    int idx = -1; 
 
-    int output;
+    struct timespec begin;
+    timespec_get(&begin, TIME_UTC);
+
     for (int i = 0; i < iterations; i++)
-        output = function(arr, size, search);
+        idx = function(arr, size, search);
 
-    clock_t lastTick = clock();
+    struct timespec end;
 
-    double totalTime = (double) (lastTick - firstTick) / CLOCKS_PER_SEC;
-    double averageTime = totalTime * 1000000 / iterations;
+    timespec_get(&end, TIME_UTC);
+
+    double totalTime = (end.tv_sec - begin.tv_sec) + (end.tv_nsec - begin.tv_nsec) / 1000.0;
+    double averageTime = totalTime / iterations;
 
     return averageTime;
 }
@@ -56,10 +60,9 @@ int* populateArray(int size) {
 
 int main() {
     srand(time(NULL));
-    int* arr;
+    int *arr;
     int numElements[4] = {10, 100, 1000, 5000};
-    unsigned int iterations = 100;
-
+    unsigned int iterations = 1000;
 
     FILE *output = fopen("BenchmarkRandom.csv", "w+");
     // Casos aleatórios
