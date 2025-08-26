@@ -29,3 +29,5 @@ make bench
 ```
 
 que roda o programa, gera os relatórios e cria gráficos sobre cada um deles
+
+**OBS:** é necessário ter uma versão de R instalada para rodar o bench `(>= 4.5.1)`
