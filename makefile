@@ -6,6 +6,6 @@ run:
 
 bench:
 	./benchmark.out
-	cd Benchmark\ Analisis/ && Rscript analysis.r
+	cd Benchmark\ Analysis/ && Rscript analysis.r
 
 all: build run
