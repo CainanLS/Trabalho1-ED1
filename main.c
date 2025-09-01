@@ -2,73 +2,136 @@
 #include <stdlib.h>
 #include <time.h>
 #include "search.h"
-#include "mergesort.h"
 #include "utils.h"
+#define NUM_ELEMENTS 4
+
+// Variáveis globais
+int *arr;
+int numOfElements[NUM_ELEMENTS] = {50, 100, 1000, 5000};
+unsigned int iterations = 1000;
+FILE *output;
+
+void benchmarkBest();
+void benchmarkWorst();
+void benchmarkRandom();
 
 int main() {
     srand(time(NULL));
-    int *arr;
-    int numElements[4] = {10, 100, 1000, 5000};
-    unsigned int iterations = 1000;
 
-    FILE *output = fopen("BenchmarkRandom.csv", "w+");
+    benchmarkRandom();
+    benchmarkBest();
+    benchmarkWorst();
 
-    // Casos aleatórios
+    free(arr);
+    
+    return 0;
+}
+
+//
+// Benchmark
+//
+
+void benchmarkRandom() {
+    output = fopen("./Results/BenchmarkRandom.csv", "w+");
+
     printf("Realizandos os testes com casos aleatórios...\n");
     fprintf(output, "tipo,tempo,qtdElementos\n");
-    for (int i = 0; i < 4; i++) {
-        arr = populateArray(numElements[i]);
-        mergesort(arr, 0, numElements[i] - 1);
-        int randomNumber = arr[rand() % numElements[i]];
+    
+    for (int i = 0; i < NUM_ELEMENTS; i++) {
+        arr = populateArray(numOfElements[i]);
+        mergesort(arr, 0, numOfElements[i] - 1);
 
-        double avgTime;
-        avgTime = countSearchTime(&sequentialSearch, arr, numElements[i], randomNumber, iterations);
-        fprintf(output, "S,%.3lf,%d\n", avgTime, numElements[i]);
-        avgTime = countSearchTime(&iterativeBinarySearch, arr, numElements[i], randomNumber, iterations);
-        fprintf(output, "I,%.3lf,%d\n", avgTime, numElements[i]);
-        avgTime = countSearchTime(&recursiveBinarySearch, arr, numElements[i], randomNumber, iterations);
-        fprintf(output, "R,%.3lf,%d\n", avgTime, numElements[i]);
+        int randomNumber = arr[rand() % numOfElements[i]];
+
+        fprintf(
+            output, 
+            "S,%.3lf,%d\n",
+            countSearchTime(&sequentialSearch, arr, numOfElements[i], randomNumber, iterations), 
+            numOfElements[i]
+        );
+
+        fprintf(
+            output, 
+            "I,%.3lf,%d\n", 
+            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], randomNumber, iterations),
+            numOfElements[i]
+        );
+
+        fprintf(
+            output, 
+            "R,%.3lf,%d\n", 
+            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], randomNumber, iterations), 
+            numOfElements[i]);
     }
+
     fclose(output);
+}
 
-    output = fopen("BenchmarkWorstCase.csv", "w+");
+void benchmarkBest() {
+    output = fopen("./Results/BenchmarkBestCase.csv", "w+");
 
-    // Pior caso
-    printf("Realizandos os testes com o pior caso caso...\n");
-    fprintf(output, "tipo,tempo,qtdElementos\n");
-    for (int i = 0; i < 4; i++) {
-        arr = populateArray(numElements[i]);
-        mergesort(arr, 0, numElements[i] - 1);
-
-        double avgTime;
-        avgTime = countSearchTime(&sequentialSearch, arr, numElements[i], numElements[i], iterations);
-        fprintf(output, "S,%.3lf,%d\n", avgTime, numElements[i]);
-        avgTime = countSearchTime(&iterativeBinarySearch, arr, numElements[i], 1, iterations);
-        fprintf(output, "I,%.3lf,%d\n", avgTime, numElements[i]);
-        avgTime = countSearchTime(&recursiveBinarySearch, arr, numElements[i], 1, iterations);
-        fprintf(output, "R,%.3lf,%d\n", avgTime, numElements[i]);
-    }
-    fclose(output);
-
-    output = fopen("BenchmarkBestCase.csv", "w+");
-
-    // Melhor caso
     printf("Realizandos os testes com o melhor caso...\n");
     fprintf(output, "tipo,tempo,qtdElementos\n");
-    for (int i = 0; i < 4; i++) {
-        arr = populateArray(numElements[i]);
-        mergesort(arr, 0, numElements[i] - 1);
 
-        double avgTime;
-        avgTime = countSearchTime(&sequentialSearch, arr, numElements[i], 1, iterations);
-        fprintf(output, "S,%.3lf,%d\n", avgTime, numElements[i]);
-        avgTime = countSearchTime(&iterativeBinarySearch, arr, numElements[i], numElements[i] / 2, iterations);
-        fprintf(output, "I,%.3lf,%d\n", avgTime, numElements[i]);
-        avgTime = countSearchTime(&recursiveBinarySearch, arr, numElements[i], numElements[i] / 2, iterations);
-        fprintf(output, "R,%.3lf,%d\n", avgTime, numElements[i]);
+    for (int i = 0; i < NUM_ELEMENTS; i++) {
+        arr = populateArray(numOfElements[i]);
+        mergesort(arr, 0, numOfElements[i] - 1);
+
+        fprintf(
+            output, 
+            "S,%.3lf,%d\n", 
+            countSearchTime(&sequentialSearch, arr, numOfElements[i], 1, iterations), 
+            numOfElements[i]
+        );
+
+        fprintf(
+            output, 
+            "I,%.3lf,%d\n", 
+            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], numOfElements[i] / 2, iterations), 
+            numOfElements[i]
+        );
+
+        fprintf(
+            output, 
+            "R,%.3lf,%d\n", 
+            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], numOfElements[i] / 2, iterations), 
+            numOfElements[i]
+        );
     }
-    
-    free(arr);
+
     fclose(output);
-    return 0;
+}
+
+void benchmarkWorst() {
+    output = fopen("./Results/BenchmarkWorstCase.csv", "w+");
+
+    printf("Realizandos os testes com o pior caso caso...\n");
+    fprintf(output, "tipo,tempo,qtdElementos\n");
+
+    for (int i = 0; i < NUM_ELEMENTS; i++) {
+        arr = populateArray(numOfElements[i]);
+        mergesort(arr, 0, numOfElements[i] - 1);
+
+        fprintf(
+            output, 
+            "S,%.3lf,%d\n", 
+            countSearchTime(&sequentialSearch, arr, numOfElements[i], numOfElements[i], iterations), 
+            numOfElements[i]
+        );
+
+        fprintf(
+            output, 
+            "I,%.3lf,%d\n", 
+            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], 1, iterations), 
+            numOfElements[i]
+        );
+
+        fprintf(
+            output, 
+            "R,%.3lf,%d\n", 
+            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], 1, iterations), 
+            numOfElements[i]
+        );
+    }
+    fclose(output);
 }

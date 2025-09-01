@@ -1,11 +1,10 @@
 build:
-	gcc main.c search.c mergesort.c utils.c -o benchmark.out
+	gcc main.c search.c utils.c -o benchmark
 
 run:
-	./benchmark.out
+	./benchmark
 
 bench:
-	./benchmark.out
-	cd Benchmark\ Analysis/ && Rscript analysis.r
+	cd Results && Rscript analysis.r && Rscript analysisBest.r && Rscript analysisWorst.r
 
-all: build run
+all: build run bench

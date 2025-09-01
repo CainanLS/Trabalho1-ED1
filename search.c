@@ -1,17 +1,27 @@
 #include <stdio.h>
 #include "search.h"
 
+/*
+Fizemos algumas alterações para que a busca retorne o numero de operações feitas,
+já que não precisamos da resposta caso ele tenha encontrado ou não
+*/
+
 // Passa item por item do array em busca do target
 int sequentialSearch(int *arr, int size, int target) {
-    for (int i = 0; i < size; i++)
-        if (arr[i] == target)
-            return i;
+    int comparisons = 0;
 
-    return -1;
+    for (int i = 0; i < size; i++) {
+        comparisons++;
+        if (arr[i] == target) break;
+    }
+
+    return comparisons;
 }
 
 // Busca binaria iterativa
 int iterativeBinarySearch(int *arr, int size, int target) {
+    int comparisons = 1;
+
     int start = 0;
     int end = size - 1;
 
@@ -19,17 +29,20 @@ int iterativeBinarySearch(int *arr, int size, int target) {
     while (start <= end) {
         int mid = (start + end) / 2;
 
+        comparisons++;
         if (arr[mid] == target)
-            return mid;
+            break;
         // Se for maior, começa de novo da metade pra baixo
-        else if (arr[mid] > target)
+        else if (arr[mid] > target) {
+            comparisons++;
             end = mid - 1;
+        }
         // se não, da metade pra cima
         else
             start = mid + 1;
     }
 
-    return -1;
+    return comparisons;
 }
 
 // Busca binária recursiva; mantemos o padrão de 3 parâmetros por função
