@@ -10,7 +10,7 @@ x <- 1:max(bench_seq[, "qtdElementos"])
 pdf("resultRandom.pdf")
 
 plot(bench_seq[, "qtdElementos"], bench_seq[, "tempo"],
-     xlab = "n° de elementos", ylab = "Tempo em microssegundos",
+     xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
      main = "Tempo de processamento da Busca Sequencial",
      type = "b", col = "blue", pch = 16)
 
@@ -24,7 +24,7 @@ legend("topleft", legend = c("Resultado", "Expectativa"),
 
 
 plot(bench_it[, "qtdElementos"], bench_it[, "tempo"],
-     xlab = "n° de elementos", ylab = "Tempo em microssegundos",
+     xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
      main = "Tempo de processamento da Busca Binária Iterativa",
      type = "b", col = "blue", pch = 16)
 
@@ -38,7 +38,7 @@ legend("topleft", legend = c("Resultado", "Expectativa"),
 
 
 plot(bench_req[, "qtdElementos"], bench_req[, "tempo"],
-     xlab = "n° de elementos", ylab = "Tempo em microssegundos",
+     xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
      main = "Tempo de processamento da Busca Binaria Recursiva",
      type = "b", col = "blue", pch = 16)
 
