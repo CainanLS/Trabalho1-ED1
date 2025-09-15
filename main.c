@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "search.h"
-#include "utils.h"
+
 #define NUM_ELEMENTS 4
 
 // Variáveis globais
