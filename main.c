@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include "search.h"
+#include "utils.h"
 
 #define NUM_ELEMENTS 4
+#define ITERATIONS 1000
 
 // Variáveis globais
 int *arr;
 int numOfElements[NUM_ELEMENTS] = {50, 100, 1000, 5000};
-unsigned int iterations = 1000;
 FILE *output;
 
 void benchmarkBest();
@@ -32,34 +33,34 @@ int main() {
 //
 
 void benchmarkRandom() {
-    output = fopen("./Results/BenchmarkRandom.csv", "w+");
+    output = fopen("./Results/RandomCase/BenchmarkRandom.csv", "w+");
 
     printf("Realizandos os testes com casos aleatórios...\n");
     fprintf(output, "tipo,tempo,qtdElementos\n");
     
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        populateArray(arr, numOfElements[i]);
+        arr = populateArray(numOfElements[i]);
 
         int randomNumber = arr[rand() % numOfElements[i]];
 
         fprintf(
             output, 
             "S,%.3lf,%d\n",
-            countSearchTime(&sequentialSearch, arr, numOfElements[i], randomNumber, iterations), 
+            countSearchTime(&sequentialSearch, arr, numOfElements[i], randomNumber, ITERATIONS), 
             numOfElements[i]
         );
 
         fprintf(
             output, 
             "I,%.3lf,%d\n", 
-            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], randomNumber, iterations),
+            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], randomNumber, ITERATIONS),
             numOfElements[i]
         );
 
         fprintf(
             output, 
             "R,%.3lf,%d\n", 
-            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], randomNumber, iterations), 
+            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], randomNumber, ITERATIONS), 
             numOfElements[i]);
     }
 
@@ -67,32 +68,32 @@ void benchmarkRandom() {
 }
 
 void benchmarkBest() {
-    output = fopen("./Results/BenchmarkBestCase.csv", "w+");
+    output = fopen("./Results/BestCase/BenchmarkBestCase.csv", "w+");
 
     printf("Realizandos os testes com o melhor caso...\n");
     fprintf(output, "tipo,tempo,qtdElementos\n");
 
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        populateArray(arr, numOfElements[i]);
+        arr = populateArray(numOfElements[i]);
 
         fprintf(
             output, 
             "S,%.3lf,%d\n", 
-            countSearchTime(&sequentialSearch, arr, numOfElements[i], 1, iterations), 
+            countSearchTime(&sequentialSearch, arr, numOfElements[i], 1, ITERATIONS), 
             numOfElements[i]
         );
 
         fprintf(
             output, 
             "I,%.3lf,%d\n", 
-            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], numOfElements[i] / 2, iterations), 
+            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], numOfElements[i] / 2, ITERATIONS), 
             numOfElements[i]
         );
 
         fprintf(
             output, 
             "R,%.3lf,%d\n", 
-            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], numOfElements[i] / 2, iterations), 
+            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], numOfElements[i] / 2, ITERATIONS), 
             numOfElements[i]
         );
     }
@@ -101,32 +102,32 @@ void benchmarkBest() {
 }
 
 void benchmarkWorst() {
-    output = fopen("./Results/BenchmarkWorstCase.csv", "w+");
+    output = fopen("./Results/WorstCase/BenchmarkWorstCase.csv", "w+");
 
     printf("Realizandos os testes com o pior caso caso...\n");
     fprintf(output, "tipo,tempo,qtdElementos\n");
 
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        populateArray(arr, numOfElements[i]);
+        arr = populateArray(numOfElements[i]);
 
         fprintf(
             output, 
             "S,%.3lf,%d\n", 
-            countSearchTime(&sequentialSearch, arr, numOfElements[i], numOfElements[i], iterations), 
+            countSearchTime(&sequentialSearch, arr, numOfElements[i], numOfElements[i], ITERATIONS), 
             numOfElements[i]
         );
 
         fprintf(
             output, 
             "I,%.3lf,%d\n", 
-            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], 1, iterations), 
+            countSearchTime(&iterativeBinarySearch, arr, numOfElements[i], 1, ITERATIONS), 
             numOfElements[i]
         );
 
         fprintf(
             output, 
             "R,%.3lf,%d\n", 
-            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], 1, iterations), 
+            countSearchTime(&recursiveBinarySearch, arr, numOfElements[i], 1, ITERATIONS), 
             numOfElements[i]
         );
     }

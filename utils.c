@@ -21,11 +21,13 @@ void printArray(int *arr, int size) {
     printf("%d}\n", arr[size - 1]);
 }
 
-void populateArray(int* arr, int size) {
-    arr = (int*) malloc(size * sizeof(int));
+int* populateArray(int size) {
+    int *arr = (int*) malloc(size * sizeof(int));
 
     for (int i = 0; i < size; i++)
         arr[i] = i + 1;
+
+    return arr;
 }
 
 double countSearchTime(int (*function)(int*, int, int), int* arr, int size, int search, int iterations) {

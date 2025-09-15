@@ -1,5 +1,5 @@
-# Worst Case Scenario
-data <- read.csv("./BenchmarkWorstCase.csv")
+# Best case scenario
+data <- read.csv("./BenchmarkBestCase.csv")
 
 bench_seq <- data[data[, "tipo"] == "S", ]
 bench_it <- data[data[, "tipo"] == "I", ]
@@ -8,45 +8,46 @@ bench_req <- data[data[, "tipo"] == "R", ]
 x <- 1:max(bench_seq[, "qtdElementos"])
 
 
-pdf("resultWorst.pdf")
+png("BestSequential.png")
 
 plot(bench_seq[, "qtdElementos"], bench_seq[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em microssegundos",
      main = "Tempo de processamento da Busca Sequencial",
-     type = "b", col = "blue", pch = 16)
+     type = "b", col = "blue", pch = 16, ylim = c(0, max(bench_seq[, "tempo"]) * 2))
 
 par(new = TRUE)
 
-plot(x, x, col = "red", type = "l",
-     axes = FALSE, xlab = "", ylab = "")
+abline(h = median(bench_seq[, "tempo"]), col = "red")
 
 legend("topleft", legend = c("Resultado", "Expectativa"),
        col = c("blue", "red"), pch = c(16, 17))
 
+
+png("BestIterative.png")
 
 plot(bench_it[, "qtdElementos"], bench_it[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em microssegundos",
      main = "Tempo de processamento da Busca Binária Iterativa",
-     type = "b", col = "blue", pch = 16)
+     type = "b", col = "blue", pch = 16, ylim=c(0, (max(bench_it[, "tempo"]) * 2)))
 
 par(new = TRUE)
 
-plot(x, log(x), col = "red", type = "l",
-     axes = FALSE, xlab = "", ylab = "")
+abline(h = median(bench_it[, "tempo"]), col = "red")
 
 legend("topleft", legend = c("Resultado", "Expectativa"),
        col = c("blue", "red"), pch = c(16, 17))
 
 
+png("BestRecursive.png")
+
 plot(bench_req[, "qtdElementos"], bench_req[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em microssegundos",
      main = "Tempo de processamento da Busca Binaria Recursiva",
-     type = "b", col = "blue", pch = 16)
+     type = "b", col = "blue", pch = 16, ylim=c(0, (max(bench_req[, "tempo"]) * 2)))
 
 par(new = TRUE)
 
-plot(x, log(x), col = "red", type = "l",
-     axes = FALSE, xlab = "", ylab = "")
+abline(h = median(bench_req[, "tempo"]), col = "red")
 
 legend("topleft", legend = c("Resultado", "Expectativa"),
        col = c("blue", "red"), pch = c(16, 17))
