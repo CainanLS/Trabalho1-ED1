@@ -38,8 +38,7 @@ void benchmarkRandom() {
     fprintf(output, "tipo,tempo,qtdElementos\n");
     
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        arr = populateArray(numOfElements[i]);
-        mergesort(arr, 0, numOfElements[i] - 1);
+        populateArray(arr, numOfElements[i]);
 
         int randomNumber = arr[rand() % numOfElements[i]];
 
@@ -74,8 +73,7 @@ void benchmarkBest() {
     fprintf(output, "tipo,tempo,qtdElementos\n");
 
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        arr = populateArray(numOfElements[i]);
-        mergesort(arr, 0, numOfElements[i] - 1);
+        populateArray(arr, numOfElements[i]);
 
         fprintf(
             output, 
@@ -109,8 +107,7 @@ void benchmarkWorst() {
     fprintf(output, "tipo,tempo,qtdElementos\n");
 
     for (int i = 0; i < NUM_ELEMENTS; i++) {
-        arr = populateArray(numOfElements[i]);
-        mergesort(arr, 0, numOfElements[i] - 1);
+        populateArray(arr, numOfElements[i]);
 
         fprintf(
             output, 
