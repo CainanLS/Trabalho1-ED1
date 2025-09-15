@@ -17,8 +17,7 @@ plot(bench_seq[, "qtdElementos"], bench_seq[, "tempo"],
 
 par(new = TRUE)
 
-plot(x, x, col = "red", type = "l",
-     axes = FALSE, xlab = "", ylab = "")
+abline(h = median(bench_seq[, "tempo"]), col = "red")
 
 legend("topleft", legend = c("Resultado", "Expectativa"),
        col = c("blue", "red"), pch = c(16, 17))
@@ -31,8 +30,7 @@ plot(bench_it[, "qtdElementos"], bench_it[, "tempo"],
 
 par(new = TRUE)
 
-plot(x, log(x), col = "red", type = "l",
-     axes = FALSE, xlab = "", ylab = "")
+abline(h = median(bench_seq[, "tempo"]), col = "red")
 
 legend("topleft", legend = c("Resultado", "Expectativa"),
        col = c("blue", "red"), pch = c(16, 17))
@@ -45,8 +43,7 @@ plot(bench_req[, "qtdElementos"], bench_req[, "tempo"],
 
 par(new = TRUE)
 
-plot(x, log(x), col = "red", type = "l",
-     axes = FALSE, xlab = "", ylab = "")
+abline(h = median(bench_seq[, "tempo"]), col = "red")
 
 legend("topleft", legend = c("Resultado", "Expectativa"),
        col = c("blue", "red"), pch = c(16, 17))
