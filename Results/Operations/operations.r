@@ -1,0 +1,1 @@
+op <- read.csv("./Operations.csv")

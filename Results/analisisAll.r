@@ -17,3 +17,32 @@ data <- read.csv("./RandomCase/BenchmarkRandom.csv")
 rand_seq <- data[data[, "tipo"] == "S", ]
 rand_it <- data[data[, "tipo"] == "I", ]
 rand_req <- data[data[, "tipo"] == "R", ]
+
+png("analisisAll.png")
+
+plot(best_seq[, "qtdElementos"], best_seq[, "tempo"],
+     xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
+     main = "Tempo de processamento Best Case",
+     type = "b", col = "blue", pch = 16)
+
+par(new = TRUE)
+
+plot(best_seq[, "qtdElementos"], best_seq[, "tempo"],
+     xlab = "", ylab = "", axes = FALSE,
+     type = "b", col = "red", pch = 15)
+
+par(new = TRUE)
+
+plot(best_it[, "qtdElementos"], best_it[, "tempo"],
+     xlab = "", ylab = "", axes = FALSE,
+     type = "b", col = "#5d0081", pch = 14)
+
+par(new = TRUE)
+
+plot(best_req[, "qtdElementos"], best_req[, "tempo"],
+     xlab = "", ylab = "", axes = FALSE,
+     type = "b", col = "#b3b300", pch = 13)
+
+
+legend("topright", legend = c("Inverter", "Sequencial", "Iterativo", "Recursivo"),
+       col = c("blue", "red", "#5d0081", "#b3b300"), pch = c(16, 15, 14, 13))
