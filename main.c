@@ -15,6 +15,7 @@ FILE *output;
 void benchmarkBest();
 void benchmarkWorst();
 void benchmarkRandom();
+void countOperations();
 
 int main() {
     srand(time(NULL));
@@ -22,6 +23,7 @@ int main() {
     benchmarkRandom();
     benchmarkBest();
     benchmarkWorst();
+    countOperations();
 
     free(arr);
     
@@ -131,5 +133,35 @@ void benchmarkWorst() {
             numOfElements[i]
         );
     }
+    fclose(output);
+}
+
+void countOperations() {
+    printf("Realizando a contagem de operações...\n");
+
+    output = fopen("./Results/Operations/Operations.csv", "w+");
+    if (output == NULL) {
+        printf("Erro ao abrir arquivo de operacoes!\n");
+    }
+
+    fprintf(output, "elements,invert,sequential,iterative,recursive\n");
+
+    for (int i = 0; i < NUM_ELEMENTS; i++) {
+        int size = numOfElements[i];
+
+        arr = populateArray(size);
+
+        fprintf(
+            output, 
+            "%d,%d,%d,%d,%d\n",
+            size,
+            invertedArray(arr, size),
+            sequentialSearch(arr, size, -1),
+            iterativeBinarySearch(arr, size, -1),
+            recursiveBinarySearch(arr, size, -1)
+        );
+    }
+
+
     fclose(output);
 }

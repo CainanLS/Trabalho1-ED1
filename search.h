@@ -1,8 +1,9 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
-int sequentialSearch(int *arr, int tam, int search);
-int iterativeBinarySearch(int *arr, int tam, int search);
-int recursiveBinarySearch(int *arr, int size, int search);
+int invertedArray(int *arr, int size);
+int sequentialSearch(int *arr, int size, int targe);
+int iterativeBinarySearch(int *arr, int size, int target);
+int recursiveBinarySearch(int *arr, int size, int target);
 
 #endif

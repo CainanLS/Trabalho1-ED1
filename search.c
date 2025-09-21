@@ -8,6 +8,20 @@ Fizemos algumas alterações para que a busca retorne o numero de operações fe
 já que não precisamos da resposta caso ele tenha encontrado ou não
 */
 
+int invertedArray(int *arr, int size) {
+    operations = 0;
+
+    for (int i = 0; i <= size / 2 - 1; i++) {
+        int aux = arr[i];
+        arr[i] = arr[size - i - 1];
+        arr[size - i - 1] = aux;
+
+        operations += 3;
+    }
+
+    return operations;
+}
+
 // Passa item por item do array em busca do target
 int sequentialSearch(int *arr, int size, int target) {
     operations = 0;
