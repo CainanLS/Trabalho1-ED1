@@ -15,6 +15,7 @@ FILE *output;
 void benchmarkBest();
 void benchmarkWorst();
 void benchmarkRandom();
+void benchmarkInverted();
 void countOperations();
 
 int main() {
@@ -23,6 +24,7 @@ int main() {
     benchmarkRandom();
     benchmarkBest();
     benchmarkWorst();
+    benchmarkInverted();
     countOperations();
 
     free(arr);
@@ -155,7 +157,7 @@ void countOperations() {
             output, 
             "%d,%d,%d,%d,%d\n",
             size,
-            invertedArray(arr, size),
+            invertedArray(arr, size, 0),
             sequentialSearch(arr, size, -1),
             iterativeBinarySearch(arr, size, -1),
             recursiveBinarySearch(arr, size, -1)
@@ -164,4 +166,25 @@ void countOperations() {
 
 
     fclose(output);
+}
+
+void benchmarkInverted() {
+    printf("Realizando os testes para a inversão...\n");
+
+    output = fopen("./Results/Inverted/Inverted.csv", "w+");
+
+    if (!output) printf("Erro ao abrir o arquivo de inversão!\n");
+
+    fprintf(output, "tempo,qtdElementos\n");
+
+    for (int i = 0; i < NUM_ELEMENTS; i++) {
+        arr = populateArray(numOfElements[i]);
+
+        fprintf(
+            output,
+            "%.3lf,%d\n",
+            countSearchTime(&invertedArray, arr, numOfElements[i], 1, ITERATIONS),
+            numOfElements[i]
+        );
+    }
 }

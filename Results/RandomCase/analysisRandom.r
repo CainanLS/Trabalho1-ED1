@@ -11,7 +11,7 @@ png("RandomSequential.png")
 
 plot(bench_seq[, "qtdElementos"], bench_seq[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
-     main = "Tempo de processamento da Busca Sequencial",
+     main = "Tempo de processamento da Busca Sequencial\nRandom Case - O(log n)",
      type = "b", col = "blue", pch = 16)
 
 par(new = TRUE)
@@ -27,7 +27,7 @@ png("RandomIterative.png")
 
 plot(bench_it[, "qtdElementos"], bench_it[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
-     main = "Tempo de processamento da Busca Binária Iterativa",
+     main = "Tempo de processamento da Busca Binária Iterativa\nRandom Case - O(log n)",
      type = "b", col = "blue", pch = 16)
 
 par(new = TRUE)
@@ -43,7 +43,7 @@ png("RandomRescursive.png")
 
 plot(bench_req[, "qtdElementos"], bench_req[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
-     main = "Tempo de processamento da Busca Binaria Recursiva",
+     main = "Tempo de processamento da Busca Binaria Recursiva\nRandom Case - O(log n)",
      type = "b", col = "blue", pch = 16)
 
 par(new = TRUE)

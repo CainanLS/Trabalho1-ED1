@@ -8,7 +8,7 @@ Fizemos algumas alterações para que a busca retorne o numero de operações fe
 já que não precisamos da resposta caso ele tenha encontrado ou não
 */
 
-int invertedArray(int *arr, int size) {
+int invertedArray(int *arr, int size, int tmp) {
     operations = 0;
 
     for (int i = 0; i <= size / 2 - 1; i++) {

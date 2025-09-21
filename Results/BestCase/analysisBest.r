@@ -12,7 +12,7 @@ png("BestSequential.png")
 
 plot(bench_seq[, "qtdElementos"], bench_seq[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
-     main = "Tempo de processamento da Busca Sequencial",
+     main = "Tempo de processamento da Busca Sequencial\nBest Case - O(1)",
      type = "b", col = "blue", pch = 16, ylim = c(0, max(bench_seq[, "tempo"]) * 2))
 
 par(new = TRUE)
@@ -27,7 +27,7 @@ png("BestIterative.png")
 
 plot(bench_it[, "qtdElementos"], bench_it[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
-     main = "Tempo de processamento da Busca Binária Iterativa",
+     main = "Tempo de processamento da Busca Binária Iterativa\nBest Case - O(1)",
      type = "b", col = "blue", pch = 16, ylim=c(0, (max(bench_it[, "tempo"]) * 2)))
 
 par(new = TRUE)
@@ -42,7 +42,7 @@ png("BestRecursive.png")
 
 plot(bench_req[, "qtdElementos"], bench_req[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
-     main = "Tempo de processamento da Busca Binaria Recursiva",
+     main = "Tempo de processamento da Busca Binaria Recursiva\nBest Case - O(1)",
      type = "b", col = "blue", pch = 16, ylim=c(0, (max(bench_req[, "tempo"]) * 2)))
 
 par(new = TRUE)

@@ -10,5 +10,7 @@ bench:
 	cd Results/RandomCase && Rscript analysisRandom.r 
 	cd Results/BestCase && Rscript analysisBest.r 
 	cd Results/WorstCase && Rscript analysisWorst.r
+	cd Results/Inverted && Rscript inverted.r
+	cd Results && Rscript analysisAll.r
 
 all: build run bench

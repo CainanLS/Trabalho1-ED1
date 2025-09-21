@@ -1,5 +1,6 @@
 # Best case scenario
 data <- read.csv("./BestCase/BenchmarkBestCase.csv")
+inv <- read.csv("./Inverted/Inverted.csv")
 
 best_seq <- data[data[, "tipo"] == "S", ]
 best_it <- data[data[, "tipo"] == "I", ]
@@ -18,9 +19,9 @@ rand_seq <- data[data[, "tipo"] == "S", ]
 rand_it <- data[data[, "tipo"] == "I", ]
 rand_req <- data[data[, "tipo"] == "R", ]
 
-png("analisisAll.png")
+png("analysisAll.png")
 
-plot(best_seq[, "qtdElementos"], best_seq[, "tempo"],
+plot(inv[, "qtdElementos"], inv[, "tempo"],
      xlab = "n° de elementos", ylab = "Tempo em nanosegundos",
      main = "Tempo de processamento Best Case",
      type = "b", col = "blue", pch = 16)
